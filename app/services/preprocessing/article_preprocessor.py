@@ -1,5 +1,6 @@
 
 from app.schema.preprocess import Article, Preprocess_object, PreprocessingError
+from app.core.config import Settings
 
 import re
 
@@ -365,12 +366,8 @@ preprocessors={
     'ndl.iitkgp.ac.in': clean_text_ndli
 }
 
-
-ERROR_CODES = {
-    "UNKNOWN_SOURCE": 1001,
-    "PREPROCESSING_FAILED": 1002,
-    "EMPTY_CONTENT": 1003,
-}
+settings = Settings()
+ERROR_CODES = settings.ERROR_CODES
 
 def apply_preprocessing(data: Preprocess_object) -> Article:
     try:
@@ -379,14 +376,14 @@ def apply_preprocessing(data: Preprocess_object) -> Article:
 
         if not content or not content.strip():
             raise PreprocessingError(
-                ERROR_CODES["EMPTY_CONTENT"],
-                "Content is empty or invalid"
+                ERROR_CODES["EMPTY_CONTENT"]['message_code'],
+                ERROR_CODES["EMPTY_CONTENT"]['message']
             )
 
         if source not in preprocessors:
             raise PreprocessingError(
-                ERROR_CODES["UNKNOWN_SOURCE"],
-                f"No preprocessor registered for source '{source}'"
+                ERROR_CODES["UNKNOWN_SOURCE"]['message_code'],
+                ERROR_CODES["UNKNOWN_SOURCE"]['message']
             )
 
         processed_content = preprocessors[source](content)
