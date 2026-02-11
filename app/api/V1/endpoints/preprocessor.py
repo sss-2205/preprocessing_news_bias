@@ -17,5 +17,3 @@ async def preprocess(data: Article):
 
     return response.json()
 
-
-# change according to preprocessor
