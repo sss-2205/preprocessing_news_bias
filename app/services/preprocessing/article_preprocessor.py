@@ -396,8 +396,8 @@ def apply_preprocessing(data: Preprocess_object) -> Article:
             content=processed_content,
             url=data.url,
             source=source,
-            error_code=None,
-            error_message=""
+            error_code=200,
+            error_message=f"preprocessed successfully using {source} preprocessor"
         )
 
     except PreprocessingError as e:
